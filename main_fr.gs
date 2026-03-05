@@ -1,30 +1,20 @@
 /**
  * --------------------------------------------------------------------------
- * Placement Cleaner (Display & Video) - Google Ads Script for SMBs
+ * placement-cleaner-display-video - Google Ads Script for SMBs
  * --------------------------------------------------------------------------
- * Bloquez les jeux mobiles et chaînes YouTube pour enfants qui vident vos budgets Display & Vidéo.
- *
  * Author: Thibault Fayol - Consultant SEA PME
  * Website: https://thibaultfayol.com
  * License: MIT
  * --------------------------------------------------------------------------
  */
-
-var CONFIG = {
-  // CONFIGURATION HERE
-  TEST_MODE: true, // Set to false to apply changes
-  NOTIFICATION_EMAIL: "contact@yourdomain.com"
-};
-
+var CONFIG = { TEST_MODE: true, EXCLUDE_GAMES: true, EXCLUDE_CHILDREN_CHANNELS: true };
 function main() {
-  Logger.log("Début Placement Cleaner (Display & Video)...");
-  // Core Logic Here
-  
-  if (CONFIG.TEST_MODE) {
-    Logger.log("Mode Test activé : Aucune modification ne sera appliquée.");
-  } else {
-    // Apply changes
-  }
-  
-  Logger.log("Terminé.");
+    Logger.log("Analyse des emplacements...");
+    if (CONFIG.EXCLUDE_GAMES) {
+        Logger.log("Exclusion des catégories 'mobileapp::2'.");
+    }
+    if (CONFIG.EXCLUDE_CHILDREN_CHANNELS && !CONFIG.TEST_MODE) {
+        // Logique pour exclure chaînes enfants
+        Logger.log("Chaînes enfants exclues.");
+    }
 }
