@@ -1,46 +1,44 @@
 # Placement Cleaner (Display & Video)
 
-Google Ads Script to automate your workflow.  
-Script Google Ads pour automatiser votre gestion SEA.  
+> Google Ads Script for SMBs — Automatically exclude wasteful placements on Display and Video campaigns.
 
----
-## 🌍 Languages | Langues
-- 🇬🇧 English version → below  
-- 🇫🇷 Version française → plus bas  
+## What it does
 
----
+This script queries the `group_placement_view` via GAQL to find automatic placements that spent money without converting. It excludes those placements at the ad group level and also blocks known suspicious patterns (mobile apps, anonymous placements). An email report lists all excluded placements with their cost and click data.
 
-# 🇬🇧 English: Placement Cleaner (Display & Video)
+## Setup
 
-## 🎯 What it does
-The quickest way to burn budget is on toddler accidental clicks. Clean your placements daily with this automated shield.
-- **Keywords/SEO:** script exclusion jeux mobiles google ads, youtube channel exclusion script google ads, script nettoyage placements display
+1. Open Google Ads > Tools > Scripts
+2. Create a new script and paste the code from `main_en.gs` (or `main_fr.gs` for French)
+3. Update the `CONFIG` block at the top
+4. Authorize and run a preview first
+5. Schedule: **Weekly**
 
-## ⚙️ Setup
-1. In **Google Ads → Tools & settings → Scripts → New script**.
-2. Paste the content of `main_en.gs`.
-3. Set `TEST_MODE = true` for safety, then preview.
+## CONFIG reference
 
----
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `TEST_MODE` | `true` | When true, logs placements without excluding them |
+| `EMAIL` | `contact@yourdomain.com` | Email address for exclusion reports |
+| `COST_THRESHOLD` | `5.00` | Minimum spend to flag a placement |
+| `DATE_RANGE` | `LAST_30_DAYS` | Lookback period for placement data |
+| `MIN_CLICKS` | `5` | Minimum clicks to consider a placement |
+| `SUSPICIOUS_PATTERNS` | `['mobileapp::',...]` | URL patterns auto-excluded regardless of performance |
+| `EXCLUSION_LABEL` | `Placement_Excluded` | Label for tracking |
 
-# 🇫🇷 Français : Placement Cleaner (Display & Video)
+## How it works
 
-## 🎯 Ce que fait le script
-Ce script exclut automatiquement toutes les chaînes YouTube pour enfants et les applications mobiles douteuses du compte.
-- **Mots-clés/SEO :** script exclusion jeux mobiles google ads, youtube channel exclusion script google ads, script nettoyage placements display
+1. Runs a GAQL query on `group_placement_view` for Display/Video campaigns
+2. Filters placements with spend above threshold, clicks above minimum, and zero conversions
+3. Excludes wasteful placements at the ad group level using `newPlacementExclusionBuilder()`
+4. Excludes suspicious URL patterns (mobile apps, anonymous) from all campaigns
+5. Sends an email report of all exclusions
 
-## ⚙️ Installation
-1. Dans **Google Ads → Outils & paramètres → Scripts → Nouveau script**.
-2. Collez le contenu de `main_fr.gs`.
-3. Paramétrez `TEST_MODE = true` par sécurité, puis Prévisualiser.
+## Requirements
 
----
-## 👤 Author | Auteur
-**Thibault Fayol – Consultant SEA PME**  
-🔗 Website: [https://thibaultfayol.com](https://thibaultfayol.com)  
+- Google Ads account with Display or Video campaigns
+- Google Ads Scripts access
 
-💡 *Ne perdez plus un euro sur des clics d'enfants. Laissez un expert sécuriser votre trafic d'acquisition.* | *Stop wasting euros on accidental clicks. Let an expert secure your acquisition traffic.*
+## License
 
----
-## 📄 License | Licence
-MIT
+MIT — Thibault Fayol Consulting
